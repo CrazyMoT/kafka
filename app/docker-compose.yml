@@ -1,0 +1,63 @@
+version: '3.11'
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.0.1
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    networks:
+      - kafka-net
+
+  kafka:
+    image: confluentinc/cp-kafka:7.0.1
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - kafka-net
+
+
+  create-topic:
+    image: confluentinc/cp-kafka:7.0.1
+    depends_on:
+      - kafka
+    command: "kafka-topics --create --topic user-actions --partitions 3 --replication-factor 1 --if-not-exists --bootstrap-server kafka:9092"
+    networks:
+      - kafka-net
+
+  fastapi:
+    build:
+      context: ./producer
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    ports:
+      - "5000:5000"
+    networks:
+      - kafka-net
+
+  consumer:
+    build:
+      context: ./consumer
+    depends_on:
+      - kafka
+
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    networks:
+      - kafka-net
+
+networks:
+  kafka-net:
+    driver: bridge
