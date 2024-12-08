@@ -1,0 +1,6 @@
+confluent_kafka
+fastapi
+uvicorn
+loguru
+requests
+pytest

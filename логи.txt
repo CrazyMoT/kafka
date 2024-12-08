@@ -1,0 +1,10 @@
+Кафка
+
+kafka-1         | [2024-12-06 20:20:31,439] INFO [GroupCoordinator 1]: Member rdkafka-d3d5b331-acf4-4075-9a19-a4502a419034 in group user-action-group has failed, removing it from the group (kafka.coordinator.group.GroupCoordinator)
+kafka-1         | [2024-12-06 20:20:31,444] INFO [GroupCoordinator 1]: Stabilized group user-action-group generation 3 (__consumer_offsets-20) with 1 members (kafka.coordinator.group.GroupCoordinator)
+kafka-1         | [2024-12-06 20:20:31,450] INFO [GroupCoordinator 1]: Assignment received from leader rdkafka-5e05125b-d426-45f3-b65f-30f4e4e64c81 for group user-action-group for generation 3. The group has 1 members, 0 of which are static. (kafka.coordinator.group.GroupCoordinator)
+
+
+Консьюмер
+%3|1733516380.980|FAIL|rdkafka#consumer-1| [thrd:kafka:9092/bootstrap]: kafka:9092/bootstrap: Connect to ipv4#172.20.0.3:9092 failed: Connection refused (after 13ms in state CONNECT)
+%3|1733516381.967|FAIL|rdkafka#consumer-1| [thrd:kafka:9092/bootstrap]: kafka:9092/bootstrap: Connect to ipv4#172.20.0.3:9092 failed: Connection refused (after 0ms in state CONNECT, 1 identical error(s) suppressed)
