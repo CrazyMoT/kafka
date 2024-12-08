@@ -4,7 +4,7 @@ from collections import defaultdict
 import time
 import threading
 from loguru import logger
-import sys
+
 
 # Настройки Kafka
 topic = 'user-actions'
@@ -57,11 +57,12 @@ def main():
             if msg is None:
                 continue
 
-            if msg.error().code() == KafkaError._PARTITION_EOF:
-                logger.info(f"End of partition reached {msg.partition()}")
-            elif msg.error():
-                logger.error(f"Error consuming message: {msg.error()}")
-                raise KafkaException(msg.error())
+            if msg.error():
+                if msg.error().code() == KafkaError._PARTITION_EOF:
+                    logger.info(f"End of partition reached {msg.partition()}")
+                else:
+                    logger.error(f"Error consuming message: {msg.error()}")
+                    raise KafkaException(msg.error())
             else:
                 process_message(msg)
     except Exception as e:

@@ -26,18 +26,12 @@ services:
     networks:
       - kafka-net
 
-
-  create-topic:
-    image: confluentinc/cp-kafka:7.0.1
-    depends_on:
-      - kafka
-    command: "kafka-topics --create --topic user-actions --partitions 3 --replication-factor 1 --if-not-exists --bootstrap-server kafka:9092"
-    networks:
-      - kafka-net
-
   fastapi:
     build:
-      context: ./producer
+      context: .  # Указываем, что контекст сборки — это корень проекта
+      dockerfile: producer/Dockerfile  # Путь к Dockerfile в папке producer
+    volumes:
+      - .:/app
     depends_on:
       - kafka
     environment:
@@ -52,7 +46,6 @@ services:
       context: ./consumer
     depends_on:
       - kafka
-
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     networks:
