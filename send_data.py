@@ -3,7 +3,7 @@ import random
 import time
 import requests
 
-USER_IDS = ["user1", "user2", "user3"]
+USER_IDS = [1, 2, 3]
 PAGE_URLS = ["https://example.com/page1", "https://example.com/page2", "https://example.com/page3"]
 ACTION_TYPES = ["page_view", "button_click"]
 
@@ -31,7 +31,7 @@ def send_to_producer(message_json):
         print(f"Failed to send message: {response.status_code}, {response.text}")
 
 if __name__ == '__main__':
-    for _ in range(10):  # Генерация 10 сообщений
+    for _ in range(1):  # Генерация 10 сообщений
         user_action = generate_user_action()
         send_to_producer(user_action)
         time.sleep(1)

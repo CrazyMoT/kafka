@@ -6,3 +6,4 @@ requests~=2.32.3
 pytest~=8.3.4
 confluent-kafka~=2.6.1
 pydantic~=2.10.3
+jinja2
